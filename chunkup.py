@@ -2,6 +2,7 @@ from pysox import CSoxApp
 import argparse
 import re
 import string
+import csv
 
 
 class NamingException(Exception):
@@ -17,6 +18,10 @@ def possible_variables():
     valid_pattern = string.join(variables, "|")
     return valid_pattern
 
+def read_chunks(chunks):
+    txtfile = open(chunks,'rb')
+    chunkreader = csv.reader(txtfile, delimiter = "\t")
+    return chunkreader
 
 def read_naming(namingConfig):
     '''Read naming.config, and check that it is valid'''
@@ -47,6 +52,8 @@ def setup_parser():
                         help = "The wav file to chunkup")
     parser.add_argument("chunks",
                         help = "A tab delimited file defining chunks")
+    parser.add_argument("outdir",
+                        help = "output directory for chunks")
     parser.add_argument("--naming", "-n",
                         default = "naming.config",
                         help = ("file defining the filename formatting "
@@ -65,9 +72,12 @@ def setup_parser():
                         help = "Include flag if chunk file has a header")
     return parser
 
-def chunkup(wav, chunks, naming, start, end, header=False):
+def chunkup(wav, chunks, outdir, naming, start, end, header=False):
     variables, config_string = read_naming("naming.config")
-    print variables
+    chunkreader = read_chunks(chunks)
+    for row in chunkreader:
+        print(row)
+
 
 if __name__ == '__main__':
     parser = setup_parser()
@@ -75,6 +85,7 @@ if __name__ == '__main__':
 
     chunkup(wav = opts.wav, 
             chunks = opts.chunks, 
+            outdir = opts.outdir,
             naming = opts.naming, 
             start = opts.start,
             end = opts.end,
