@@ -55,11 +55,28 @@ def setup_parser():
                                 "[n]: chunk number,\n"
                                 "[col0-9]: values from the specified "
                                 "columns in the chunk file."))
+    parser.add_argument("--start", "-s", type = int,
+                        default = 3,
+                        help = "Column number for chunk start")
+    parser.add_argument("--end", "-e", type = int,
+                        default = 4,
+                        help = "Column number for chunk end")
+    parser.add_argument("--header", action = "store_true",
+                        help = "Include flag if chunk file has a header")
     return parser
+
+def chunkup(wav, chunks, naming, start, end, header=False):
+    variables, config_string = read_naming("naming.config")
+    print variables
 
 if __name__ == '__main__':
     parser = setup_parser()
     opts = parser.parse_args()
 
-    variables, config_string = read_naming("naming.config")
-    print variables
+    chunkup(wav = opts.wav, 
+            chunks = opts.chunks, 
+            naming = opts.naming, 
+            start = opts.start,
+            end = opts.end,
+            header = opts.header)
+
