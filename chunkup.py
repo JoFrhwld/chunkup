@@ -3,11 +3,41 @@ import argparse
 import re
 import string
 import csv
+import os
 
 
 class NamingException(Exception):
     '''An exception for chunk naming problems'''
     pass    
+
+def chunk_wav(wav, outfile, start_time, end_time):
+    '''Sets up sox to trim the audio'''
+    sapp = CSoxApp(wav, output = outfile, 
+                   effectparams = [('trim', [start_time, end_time])])
+    sapp.flow()
+
+def make_chunkname(variables, config_string, name_dict):
+    '''make chunk name'''
+    chunk_name = config_string
+    for var in variables:
+        if var not in name_dict:
+            raise NamingException("%s not found"%var)
+
+        chunk_name = chunk_name.replace(var, str(name_dict[var]))
+    
+    return chunk_name
+
+def make_namedict(wav, n, row):
+    '''make name dict for naming the chunk'''
+    basename = os.path.splitext(os.path.basename(wav))[0]
+    coln = 0
+    name_dict = {"[n]":n, 
+                 "[basename]": basename}
+    for value in row:
+        coln = coln + 1
+        name_dict["[col"+str(coln)+"]"] = value
+
+    return name_dict
 
 def possible_variables():
     '''Define possible naming variables, in regex form'''
@@ -18,9 +48,11 @@ def possible_variables():
     valid_pattern = string.join(variables, "|")
     return valid_pattern
 
-def read_chunks(chunks):
+def read_chunks(chunks, header):
     txtfile = open(chunks,'rb')
     chunkreader = csv.reader(txtfile, delimiter = "\t")
+    if header:
+        head = chunkreader.next()
     return chunkreader
 
 def read_naming(namingConfig):
@@ -39,7 +71,7 @@ def read_naming(namingConfig):
         if not re.match(valid_pattern, var):
             raise NamingException("%s not a valid naming variable, "
                                   "see help chunkup.py -h"%var)
-    return (variables, config_string)
+    return (variables, config_string[0])
 
 
 def setup_parser():
@@ -73,11 +105,25 @@ def setup_parser():
     return parser
 
 def chunkup(wav, chunks, outdir, naming, start, end, header=False):
+    '''Main chunkup procedure'''
     variables, config_string = read_naming("naming.config")
-    chunkreader = read_chunks(chunks)
-    for row in chunkreader:
-        print(row)
 
+    # chunkreader is a csv.reader iterable
+    chunkreader = read_chunks(chunks, header)
+
+    n = 0
+    for row in chunkreader:
+        n = n+1
+
+        name_dict = make_namedict(wav, n, row)
+        chunk_name = make_chunkname(variables, config_string, name_dict)
+        outfile = os.path.join(outdir, chunk_name)
+
+        start_time = float(row[start-1])
+        end_time   = float(row[end-1])
+        dur = end_time-start_time
+
+        chunk_wav(wav, outfile, str(start_time), str(dur))
 
 if __name__ == '__main__':
     parser = setup_parser()
