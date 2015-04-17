@@ -24,6 +24,8 @@ This usage example pulls down [Episode #20: I Want to Break Free](http://gimletm
 
     python chunkup.py examples/reply_all_podcast.mp3 examples/replyallcreak.txt chunks/
 
+## Chunk naming
+
 `chunks/` now contains 104 chunks of speech I annotated, largely to separate out the three speakers in the first segment. The default naming conventions of chunks are:
 
     [n]-[basename]-[col1]-[col3].wav
@@ -36,6 +38,8 @@ Where `[n]` is the numeric index of the chunk, `[basename]` is the base name of 
 | `[basename]` | base name of original audio file |
 | `[col0-9]` | value from any the given column in the chunk file|
 
+## Configuration
+
 You can change the chunk naming convention either at the command line usig the `-n` or `--naming` flag.
 
     python chunkup.py -n [col1]-[n].wav examples/reply_all_podcast.mp3 examples/replyallcreak.txt chunks/
@@ -47,3 +51,15 @@ Other config options include
 | `-s`, `--start`| Column index (starting with 1) for the start time, in ss.ms format |
 | `-e`, `--end` | Column index (starting with 1) for the end time, in ss.ms format |
 | `--header` | Include if chunk file has a header |
+
+## Compiling
+
+If you'd like to use chunkup as a standalone commandline tool, you can compile it using `pyinstaller`. 
+
+    # install pyinstaller if you haven't already
+    pip install pyinstaller
+    pyinstaller chunkup.py
+
+The compiled program is now in `./dist/chunkup/`. If you add that directory to your path, you'll be able to use it like so:
+
+    chunkup examples/reply_all_podcast.mp3 examples/replyallcreak.txt chunks/
