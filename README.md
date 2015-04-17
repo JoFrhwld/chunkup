@@ -52,6 +52,19 @@ Other config options include
 | `-e`, `--end` | Column index (starting with 1) for the end time, in ss.ms format |
 | `--header` | Include if chunk file has a header |
 
+All config options can be defined in a config file and passed to chunkup.py with the prefix `+`. A sample config file for this data would be:
+
+    --naming
+    [n]-[basename]-[col1]-[col3].wav
+    --start
+    3
+    --end
+    4
+
+If saved to config.txt, it could be passed to chunkup.py like so:
+
+    python chunkup.py +config.txt examples/reply_all_podcast.mp3 examples/replyallcreak.txt chunks/
+
 ## Compiling
 
 If you'd like to use chunkup as a standalone commandline tool, you can compile it using `pyinstaller`. 

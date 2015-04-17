@@ -10,9 +10,9 @@ class NamingException(Exception):
     '''An exception for chunk naming problems'''
     pass    
 
-def chunk_wav(wav, outfile, start_time, end_time):
+def chunk_audio(audio, outfile, start_time, end_time):
     '''Sets up sox to trim the audio'''
-    sapp = CSoxApp(wav, output = outfile, 
+    sapp = CSoxApp(audio, output = outfile, 
                    effectparams = [('trim', [start_time, end_time])])
     sapp.flow()
 
@@ -27,9 +27,9 @@ def make_chunkname(variables, config_string, name_dict):
     
     return chunk_name
 
-def make_namedict(wav, n, row):
+def make_namedict(audio, n, row):
     '''make name dict for naming the chunk'''
-    basename = os.path.splitext(os.path.basename(wav))[0]
+    basename = os.path.splitext(os.path.basename(audio))[0]
     coln = 0
     name_dict = {"[n]":n, 
                  "[basename]": basename}
@@ -70,13 +70,14 @@ def read_naming(naming):
 
 def setup_parser():
     '''set up argument parser'''
-    parser = argparse.ArgumentParser(description = ("Takes .wav file and "
+    parser = argparse.ArgumentParser(description = ("Takes audio file and "
                                      "tab delimited file as input. "
                                      "Chunk onset and offset must be in "
                                      "ss.ms format"),
                                      fromfile_prefix_chars="+")
-    parser.add_argument("wav",
-                        help = "The wav file to chunkup")
+    parser.add_argument("audio",
+                        help = "The audio file to chunkup. "
+                        "It can be any audio file sox can process.")
     parser.add_argument("chunks",
                         help = "A tab delimited file defining chunks")
     parser.add_argument("outdir",
@@ -85,7 +86,7 @@ def setup_parser():
                         default = "[n]-[basename]-[col1]-[col3].wav",
                         help = ("string defining the filename formatting "
                                 "for each chunk. Possible values are:\n "
-                                "[basename]: basename of original wav,\n"
+                                "[basename]: basename of original audio,\n"
                                 "[n]: chunk number,\n"
                                 "[col0-9]: values from the specified "
                                 "columns in the chunk file."))
@@ -99,7 +100,7 @@ def setup_parser():
                         help = "Include flag if chunk file has a header")
     return parser
 
-def chunkup(wav, chunks, outdir, naming, start, end, header=False):
+def chunkup(audio, chunks, outdir, naming, start, end, header=False):
     '''Main chunkup procedure'''
     variables, config_string = read_naming(naming)
 
@@ -110,7 +111,7 @@ def chunkup(wav, chunks, outdir, naming, start, end, header=False):
     for row in chunkreader:
         n = n+1
 
-        name_dict = make_namedict(wav, n, row)
+        name_dict = make_namedict(audio, n, row)
         chunk_name = make_chunkname(variables, config_string, name_dict)
         outfile = os.path.join(outdir, chunk_name)
 
@@ -118,13 +119,13 @@ def chunkup(wav, chunks, outdir, naming, start, end, header=False):
         end_time   = float(row[end-1])
         dur = end_time-start_time
 
-        chunk_wav(wav, outfile, str(start_time), str(dur))
+        chunk_audio(audio, outfile, str(start_time), str(dur))
 
 if __name__ == '__main__':
     parser = setup_parser()
     opts = parser.parse_args()
 
-    chunkup(wav = opts.wav, 
+    chunkup(audio = opts.audio, 
             chunks = opts.chunks, 
             outdir = opts.outdir,
             naming = opts.naming, 
