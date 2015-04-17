@@ -8,7 +8,18 @@ import os
 
 class NamingException(Exception):
     '''An exception for chunk naming problems'''
-    pass    
+    pass
+
+class DirectoryException(Exception):
+    '''Problem with output directory'''
+    pass
+
+def check_outdir(outdir):
+    '''Checks to see if there is an output directory'''
+    if not os.path.exists(outdir):
+        raise DirectoryException("No such directory %s"%outdir)
+    elif not os.path.isdir(outdir):
+        raise DirectoryException("%s is not a directory"%outdir)
 
 def chunk_audio(audio, outfile, start_time, end_time):
     '''Sets up sox to trim the audio'''
@@ -102,6 +113,9 @@ def setup_parser():
 
 def chunkup(audio, chunks, outdir, naming, start, end, header=False):
     '''Main chunkup procedure'''
+
+    check_outdir(outdir)
+    
     variables, config_string = read_naming(naming)
 
     # chunkreader is a csv.reader iterable
