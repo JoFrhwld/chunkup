@@ -77,3 +77,13 @@ If you'd like to use chunkup as a standalone commandline tool, you can compile i
 The compiled program is now in `./dist/chunkup/`. If you add that directory to your path, you'll be able to use it like so:
 
     chunkup examples/reply_all_podcast.mp3 examples/replyallcreak.txt chunks/
+
+## Installing package
+
+You can also install chunkup as a python package like so:
+
+    pip install git+https://github.com/JoFrhwld/chunkup.git@package
+
+The most useful function from the module is probably `chunk_audio()`, which reads basically like a call to sox.
+
+    chunk_audio(audio, outfile, start, duration)
