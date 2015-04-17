@@ -55,23 +55,17 @@ def read_chunks(chunks, header):
         head = chunkreader.next()
     return chunkreader
 
-def read_naming(namingConfig):
+def read_naming(naming):
     '''Read naming.config, and check that it is valid'''
-    config_fi = open(namingConfig)
-    config_string = config_fi.readlines()
-    config_fi.close()
-
-    if len(config_string) > 1:
-        raise NamingException("Naming config more than 1 line.")
 
     variable_pattern = re.compile(r'\[.*?\]')
-    variables = re.findall(variable_pattern, config_string[0])
+    variables = re.findall(variable_pattern, naming)
     valid_pattern = possible_variables()
     for var in variables:
         if not re.match(valid_pattern, var):
             raise NamingException("%s not a valid naming variable, "
                                   "see help chunkup.py -h"%var)
-    return (variables, config_string[0])
+    return (variables, naming)
 
 
 def setup_parser():
@@ -79,7 +73,8 @@ def setup_parser():
     parser = argparse.ArgumentParser(description = ("Takes .wav file and "
                                      "tab delimited file as input. "
                                      "Chunk onset and offset must be in "
-                                     "ss.ms format"))
+                                     "ss.ms format"),
+                                     fromfile_prefix_chars="+")
     parser.add_argument("wav",
                         help = "The wav file to chunkup")
     parser.add_argument("chunks",
@@ -87,8 +82,8 @@ def setup_parser():
     parser.add_argument("outdir",
                         help = "output directory for chunks")
     parser.add_argument("--naming", "-n",
-                        default = "naming.config",
-                        help = ("file defining the filename formatting "
+                        default = "[n]-[basename]-[col1]-[col3].wav",
+                        help = ("string defining the filename formatting "
                                 "for each chunk. Possible values are:\n "
                                 "[basename]: basename of original wav,\n"
                                 "[n]: chunk number,\n"
@@ -106,7 +101,7 @@ def setup_parser():
 
 def chunkup(wav, chunks, outdir, naming, start, end, header=False):
     '''Main chunkup procedure'''
-    variables, config_string = read_naming("naming.config")
+    variables, config_string = read_naming(naming)
 
     # chunkreader is a csv.reader iterable
     chunkreader = read_chunks(chunks, header)
