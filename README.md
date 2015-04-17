@@ -83,7 +83,3 @@ The compiled program is now in `./dist/chunkup/`. If you add that directory to y
 You can also install chunkup as a python package like so:
 
     pip install git+https://github.com/JoFrhwld/chunkup.git@package
-
-The most useful function from the module is probably `chunk_audio()`, which reads basically like a call to sox.
-
-    chunk_audio(audio, outfile, start, duration)
