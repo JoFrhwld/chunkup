@@ -11,9 +11,10 @@ Given an audio file, and a tab delimited file, split up audio file into smaller 
 - chunkup will *only* chunk up audio. Any other effects (resampling etc) should be applied to the audio file before running chunkup.
 - At the moment, chunkup will operate fairly blindly. If you give it start and end times for a chunk that actually lie outside of the provided audio file, it'll return a bunch of sox errors that look like:
 
+```
     trim: End position is after expected end of audio.
     trim: Last 1 position(s) not reached.
-
+```
 
 # Usage
 
