@@ -4,7 +4,7 @@ import chunkup
 
 parser = chunkup.setup_parser()
 opts = parser.parse_args()
-chunkup(audio = opts.audio, 
+chunkup.chunkup(audio = opts.audio, 
         chunks = opts.chunks, 
         outdir = opts.outdir,
         naming = opts.naming, 

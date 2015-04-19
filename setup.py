@@ -5,7 +5,7 @@ def readme():
         return f.read()
 
 setup(name='chunkup',
-      version='0.2',
+      version='0.2.1',
       description='chunks up audio',
       long_description = readme(),
       url='https://github.com/JoFrhwld/chunkup',
