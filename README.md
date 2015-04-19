@@ -16,6 +16,14 @@ Given an audio file, and a tab delimited file, split up audio file into smaller 
     trim: Last 1 position(s) not reached.
 ```
 
+# Installation
+
+    pip install chunkup
+
+After installing chunkup, the `chunkup` command line script should be added to your path, and should be available from anywhere. Test it out by opening a new terminal and running
+
+    chunkup -h
+
 # Usage
 
 This usage example pulls down [Episode #20: I Want to Break Free](http://gimletmedia.com/episode/20-i-want-to-break-free/) of Reply All. The mp3 is 41.5M.
@@ -23,7 +31,7 @@ This usage example pulls down [Episode #20: I Want to Break Free](http://gimletm
     curl -L -o examples/reply_all_podcast.mp3 http://bit.ly/chunkup 
     mkdir chunks
 
-    python chunkup.py examples/reply_all_podcast.mp3 examples/replyallcreak.txt chunks/
+    chunkup examples/reply_all_podcast.mp3 examples/replyallcreak.txt chunks/
 
 ## Chunk naming
 
@@ -43,7 +51,7 @@ Where `[n]` is the numeric index of the chunk, `[basename]` is the base name of 
 
 You can change the chunk naming convention either at the command line usig the `-n` or `--naming` flag.
 
-    python chunkup.py -n [col1]-[n].wav examples/reply_all_podcast.mp3 examples/replyallcreak.txt chunks/
+    $ chunkup -n [col1]-[n].wav examples/reply_all_podcast.mp3 examples/replyallcreak.txt chunks/
 
 Other config options include
 
@@ -64,22 +72,4 @@ All config options can be defined in a config file and passed to chunkup.py with
 
 If saved to config.txt, it could be passed to chunkup.py like so:
 
-    python chunkup.py +config.txt examples/reply_all_podcast.mp3 examples/replyallcreak.txt chunks/
-
-## Compiling
-
-If you'd like to use chunkup as a standalone commandline tool, you can compile it using `pyinstaller`. 
-
-    # install pyinstaller if you haven't already
-    pip install pyinstaller
-    pyinstaller chunkup.py
-
-The compiled program is now in `./dist/chunkup/`. If you add that directory to your path, you'll be able to use it like so:
-
-    chunkup examples/reply_all_podcast.mp3 examples/replyallcreak.txt chunks/
-
-## Installing package
-
-You can also install chunkup as a python package like so:
-
-    pip install git+https://github.com/JoFrhwld/chunkup.git@package
+    $ chunkup +config.txt examples/reply_all_podcast.mp3 examples/replyallcreak.txt chunks/

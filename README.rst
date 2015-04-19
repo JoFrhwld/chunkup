@@ -28,6 +28,21 @@ Requirements & Caveats
         trim: End position is after expected end of audio.
         trim: Last 1 position(s) not reached.
 
+Installation
+============
+
+::
+
+    pip install chunkup
+
+After installing chunkup, the ``chunkup`` command line script should be
+added to your path, and should be available from anywhere. Test it out
+by opening a new terminal and running
+
+::
+
+    chunkup -h
+
 Usage
 =====
 
@@ -40,7 +55,7 @@ Reply All. The mp3 is 41.5M.
     curl -L -o examples/reply_all_podcast.mp3 http://bit.ly/chunkup 
     mkdir chunks
 
-    python chunkup.py examples/reply_all_podcast.mp3 examples/replyallcreak.txt chunks/
+    chunkup examples/reply_all_podcast.mp3 examples/replyallcreak.txt chunks/
 
 Chunk naming
 ------------
@@ -78,7 +93,7 @@ usig the ``-n`` or ``--naming`` flag.
 
 ::
 
-    python chunkup.py -n [col1]-[n].wav examples/reply_all_podcast.mp3 examples/replyallcreak.txt chunks/
+    $ chunkup -n [col1]-[n].wav examples/reply_all_podcast.mp3 examples/replyallcreak.txt chunks/
 
 Other config options include
 
@@ -109,32 +124,4 @@ If saved to config.txt, it could be passed to chunkup.py like so:
 
 ::
 
-    python chunkup.py +config.txt examples/reply_all_podcast.mp3 examples/replyallcreak.txt chunks/
-
-Compiling
----------
-
-If you'd like to use chunkup as a standalone commandline tool, you can
-compile it using ``pyinstaller``.
-
-::
-
-    # install pyinstaller if you haven't already
-    pip install pyinstaller
-    pyinstaller chunkup.py
-
-The compiled program is now in ``./dist/chunkup/``. If you add that
-directory to your path, you'll be able to use it like so:
-
-::
-
-    chunkup examples/reply_all_podcast.mp3 examples/replyallcreak.txt chunks/
-
-Installing package
-------------------
-
-You can also install chunkup as a python package like so:
-
-::
-
-    pip install git+https://github.com/JoFrhwld/chunkup.git@package
+    $ chunkup +config.txt examples/reply_all_podcast.mp3 examples/replyallcreak.txt chunks/
