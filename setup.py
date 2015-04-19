@@ -8,4 +8,5 @@ setup(name='chunkup',
       author_email='jofrhwld@gmail.com',
       license='MIT',
       packages=['chunkup'],
+      install_requires = ['pysox'],
       zip_safe=False)
