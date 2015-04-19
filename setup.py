@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='chunkup',
-      version='0.1',
+      version='0.2',
       description='chunks up audio',
       url='https://github.com/JoFrhwld/chunkup',
       author='Josef Fruehwald',
