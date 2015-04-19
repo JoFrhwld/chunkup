@@ -9,4 +9,5 @@ setup(name='chunkup',
       license='MIT',
       packages=['chunkup'],
       install_requires = ['pysox'],
+      scripts=['bin/chunkup']
       zip_safe=False)
