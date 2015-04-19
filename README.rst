@@ -48,7 +48,8 @@ Usage
 
 This usage example pulls down `Episode #20: I Want to Break
 Free <http://gimletmedia.com/episode/20-i-want-to-break-free/>`__ of
-Reply All. The mp3 is 41.5M.
+Reply All. The mp3 is 41.5M. You can get ``replyallcreak.txt`` from
+https://github.com/JoFrhwld/chunkup/blob/master/examples/replyallcreak.txt
 
 ::
 
