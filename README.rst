@@ -53,10 +53,9 @@ https://github.com/JoFrhwld/chunkup/blob/master/examples/replyallcreak.txt
 
 ::
 
-    curl -L -o examples/reply_all_podcast.mp3 http://bit.ly/chunkup 
     mkdir chunks
 
-    chunkup examples/reply_all_podcast.mp3 examples/replyallcreak.txt chunks/
+    chunkup chunkup examples/RA\ 0120\ BNC\ \(with\ credit\ fix\).mp3 examples/replyallcreak.txt chunks/
 
 Chunk naming
 ------------

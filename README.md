@@ -28,10 +28,9 @@ After installing chunkup, the `chunkup` command line script should be added to y
 
 This usage example pulls down [Episode #20: I Want to Break Free](http://gimletmedia.com/episode/20-i-want-to-break-free/) of Reply All. The mp3 is 41.5M. You can get `replyallcreak.txt` from [https://github.com/JoFrhwld/chunkup/blob/master/examples/replyallcreak.txt](https://github.com/JoFrhwld/chunkup/blob/master/examples/replyallcreak.txt)
 
-    curl -L -o examples/reply_all_podcast.mp3 http://bit.ly/chunkup 
     mkdir chunks
 
-    chunkup examples/reply_all_podcast.mp3 examples/replyallcreak.txt chunks/
+    chunkup chunkup examples/RA\ 0120\ BNC\ \(with\ credit\ fix\).mp3 examples/replyallcreak.txt chunks/
 
 ## Chunk naming
 
